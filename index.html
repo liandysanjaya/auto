@@ -3,571 +3,558 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compiler Illustrator · Aritmatika Sederhana</title>
+    <title>Compiler Illustrator · Boolean Expression</title>
     <style>
         * {
             box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
             margin: 0;
             padding: 0;
         }
         body {
-            background: #f5f7fb;
+            background: linear-gradient(145deg, #e9eef3 0%, #dae1e9 100%);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
-            padding: 1.5rem;
+            justify-content: center;
+            padding: 2rem;
         }
-        .app-container {
+        .card {
             max-width: 1400px;
             width: 100%;
-            background: white;
-            border-radius: 2rem;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(10px);
+            border-radius: 3rem;
+            box-shadow: 0 30px 60px rgba(0,10,30,0.25), 0 0 0 1px rgba(255,255,255,0.5) inset;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
         }
         .header {
-            background: linear-gradient(145deg, #1e2b3c, #0f1a28);
+            padding: 2rem 3rem;
+            background: rgba(20, 30, 45, 0.9);
             color: white;
-            padding: 1.8rem 2.5rem;
+            border-bottom: 1px solid #3f5569;
         }
         .header h1 {
             font-weight: 600;
-            font-size: 2.2rem;
-            letter-spacing: -0.5px;
-            margin-bottom: 0.3rem;
-        }
-        .header p {
-            color: #b0c8e0;
-            font-weight: 400;
-            font-size: 1.1rem;
-        }
-        .main-panel {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 1.8rem;
-            padding: 2rem 2.5rem;
-            background: #f8fafd;
-        }
-        .grammar-section {
-            background: white;
-            border-radius: 1.5rem;
-            padding: 1.8rem;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
-            border: 1px solid #e6edf4;
-        }
-        .grammar-section h2 {
-            font-size: 1.6rem;
-            font-weight: 600;
-            color: #1e2b3c;
-            margin-bottom: 1.2rem;
+            font-size: 2.6rem;
+            letter-spacing: -1px;
+            margin-bottom: 0.25rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
         }
-        .grammar-section h2 span {
-            background: #d4e2f0;
-            font-size: 0.9rem;
-            padding: 0.2rem 0.8rem;
-            border-radius: 30px;
-            color: #1e3b5c;
-            font-weight: 500;
-        }
-        .rule-grid {
-            background: #f1f5f9;
-            border-radius: 1rem;
-            padding: 1.2rem;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+        .header h1 span {
+            background: #3b5f8a;
+            padding: 0.2rem 1rem;
+            border-radius: 100px;
             font-size: 1rem;
-            line-height: 1.8;
-            border: 1px solid #d9e2ec;
-            margin-bottom: 1.5rem;
+            font-weight: 500;
+            letter-spacing: normal;
         }
-        .rule-item {
+        .header p {
+            color: #b6cde0;
+            font-size: 1.1rem;
+        }
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 2rem;
+            padding: 2.5rem 3rem;
+            background: #f4f8fe;
+        }
+        .grammar-panel {
+            background: white;
+            border-radius: 2rem;
+            padding: 2rem;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+            border: 1px solid #cdddea;
+        }
+        .grammar-panel h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #1d3649;
+            margin-bottom: 1.5rem;
+            border-left: 8px solid #3f6b9c;
+            padding-left: 1.2rem;
+        }
+        .production-list {
+            background: #ecf3fa;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            font-family: 'Fira Code', 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            line-height: 2;
+            border: 1px solid #b9d0e5;
+            margin-bottom: 2rem;
+        }
+        .prod-item {
             display: flex;
             align-items: baseline;
-            gap: 0.8rem;
+            gap: 1rem;
+            border-bottom: 1px dashed #a0bbd4;
             padding: 0.3rem 0;
-            border-bottom: 1px dashed #cbd5e1;
         }
-        .rule-item:last-child {
+        .prod-item:last-child {
             border-bottom: none;
         }
         .nonterm {
-            color: #b03d24;
-            font-weight: 600;
-            background: #ffeae5;
-            padding: 0.2rem 0.7rem;
-            border-radius: 20px;
+            background: #1d4e6f;
+            color: white;
+            padding: 0.2rem 0.9rem;
+            border-radius: 30px;
             font-size: 0.95rem;
+            font-weight: 600;
         }
         .arrow {
-            color: #3c6e71;
-            font-weight: 600;
+            color: #4d7ca1;
+            font-weight: 700;
+            font-size: 1.2rem;
         }
-        .prod {
-            color: #1f3a5f;
+        .rhs {
+            color: #1a2f44;
         }
-        .badge {
-            background: #284b63;
-            color: white;
-            padding: 0.3rem 0.9rem;
+        .terminal-badge {
+            background: #ffeed9;
             border-radius: 30px;
-            font-size: 0.85rem;
-            font-weight: 500;
+            padding: 0.3rem 1rem;
             display: inline-block;
-            margin-right: 0.8rem;
-        }
-        .input-section {
-            background: white;
-            border-radius: 1.5rem;
-            padding: 1.8rem;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
-            border: 1px solid #e6edf4;
-        }
-        .input-section h3 {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #1e2b3c;
-            margin-bottom: 1rem;
-        }
-        .input-group {
-            display: flex;
-            gap: 0.8rem;
-            flex-wrap: wrap;
-            margin-bottom: 1.5rem;
-        }
-        #expressionInput {
-            flex: 3 1 300px;
-            padding: 1rem 1.2rem;
-            font-size: 1.1rem;
-            border: 2px solid #dde7f0;
-            border-radius: 50px;
-            outline: none;
-            transition: 0.2s;
-            font-family: 'JetBrains Mono', monospace;
-        }
-        #expressionInput:focus {
-            border-color: #3c6e71;
-            box-shadow: 0 0 0 3px rgba(60,110,113,0.2);
-        }
-        button {
-            background: #284b63;
-            color: white;
-            border: none;
-            padding: 0.8rem 1.8rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.15s;
-            border: 1px solid #1d3b4f;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        button:hover {
-            background: #1f3f58;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -5px rgba(30,60,80,0.4);
-        }
-        button.secondary {
-            background: white;
-            color: #1e2b3c;
-            border: 2px solid #cbd5e1;
-        }
-        button.secondary:hover {
-            background: #f0f4fa;
-            border-color: #9aa9b9;
-        }
-        .examples {
-            display: flex;
-            gap: 0.8rem;
-            flex-wrap: wrap;
-            margin: 1rem 0 1.8rem;
-        }
-        .example-tag {
-            background: #ecf3fa;
-            color: #1f4973;
-            padding: 0.3rem 1.2rem;
-            border-radius: 40px;
             font-size: 0.9rem;
             font-weight: 500;
-            cursor: pointer;
-            border: 1px solid #bdd3e8;
-            transition: 0.1s;
+            color: #8a5f2c;
+            margin-right: 0.4rem;
+            border: 1px solid #e1c6a2;
         }
-        .example-tag:hover {
-            background: #d4e2f5;
+        .info-footer {
+            background: #dae8f2;
+            border-radius: 1.2rem;
+            padding: 1rem 1.5rem;
+            color: #1f3e5c;
+        }
+        .info-footer code {
+            background: #b9d2e9;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+        }
+        .io-panel {
+            background: white;
+            border-radius: 2rem;
+            padding: 2rem;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+            border: 1px solid #cdddea;
+        }
+        .io-panel h3 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #1d3649;
+            margin-bottom: 1.2rem;
+        }
+        .input-area {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.8rem;
+        }
+        .input-row {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+        #exprInput {
+            flex: 3 1 280px;
+            padding: 1rem 1.5rem;
+            font-size: 1.2rem;
+            border: 2px solid #bfd7ec;
+            border-radius: 60px;
+            outline: none;
+            transition: 0.2s;
+            font-family: 'Fira Code', monospace;
+            background: #fbfdff;
+        }
+        #exprInput:focus {
+            border-color: #2b6c9e;
+            box-shadow: 0 0 0 4px rgba(43,108,158,0.2);
+        }
+        button {
+            background: #1d4e6f;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.9rem 2rem;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.15s;
+            border: 1px solid #133a52;
+            box-shadow: 0 8px 14px -8px rgba(0,40,70,0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        button:hover {
+            background: #256e9c;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 20px -8px #1d4e6f;
+        }
+        button.secondary {
+            background: #e1eefb;
+            color: #1d3649;
+            border: 2px solid #9dbedb;
+            box-shadow: none;
+        }
+        button.secondary:hover {
+            background: #cde2f5;
+        }
+        .example-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin: 1.2rem 0 1.8rem;
+        }
+        .pill {
+            background: white;
+            border: 1.5px solid #abc0d4;
+            color: #1e3f5c;
+            padding: 0.4rem 1.4rem;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.1s;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.02);
+        }
+        .pill:hover {
+            background: #e1effa;
+            border-color: #3f7fb0;
         }
         .status-box {
-            background: #edf2f7;
-            border-radius: 1rem;
-            padding: 1.2rem;
+            background: #eef3f9;
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.8rem;
             font-weight: 500;
-            border-left: 6px solid;
-            margin: 1.2rem 0 1rem;
+            border-left: 8px solid;
+            margin: 1.5rem 0 1rem;
         }
         .status-box.valid {
-            border-left-color: #2b7a4b;
-            background: #e2f0e8;
-            color: #1c5e3a;
+            border-left-color: #1f8b4c;
+            background: #e0f3e8;
+            color: #1d6137;
         }
         .status-box.invalid {
-            border-left-color: #b13e3e;
-            background: #fce9e9;
-            color: #8b2c2c;
+            border-left-color: #c44545;
+            background: #fee9e9;
+            color: #942424;
         }
-        .tree-container {
-            background: #ffffff;
-            border-radius: 1.5rem;
+        .tree-wrapper {
+            margin: 2rem 3rem 2.5rem 3rem;
+            background: #f9fcff;
+            border-radius: 2rem;
             padding: 2rem;
-            margin: 0 2.5rem 2.5rem 2.5rem;
-            border: 1px solid #e0ebf5;
-            box-shadow: inset 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #cbdbea;
             overflow-x: auto;
+            box-shadow: inset 0 2px 8px #00000008;
         }
         .tree-title {
+            font-size: 1.5rem;
             font-weight: 600;
-            font-size: 1.3rem;
-            color: #1d3b53;
-            margin-bottom: 1.2rem;
+            color: #1d3649;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
             gap: 0.6rem;
         }
-        /* parse tree styling */
-        .parse-tree-root {
+        .parse-root {
             display: flex;
             justify-content: center;
-            animation: fadeIn 0.3s;
+            animation: appear 0.3s ease;
         }
         .tree-node {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 0 0.8rem;
+            margin: 0 0.7rem;
+            position: relative;
         }
         .node-label {
-            background: #d7e7f7;
-            border: 2px solid #2c5779;
-            color: #153e5a;
-            font-weight: 600;
-            padding: 0.3rem 0.9rem;
+            background: #bdd6f0;
+            border: 2px solid #2f6396;
+            color: #0a2b44;
+            font-weight: 700;
+            padding: 0.3rem 1rem;
             border-radius: 40px;
             font-size: 0.9rem;
-            font-family: 'JetBrains Mono', monospace;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+            font-family: 'Fira Code', monospace;
+            box-shadow: 0 4px 10px rgba(0,35,70,0.1);
             white-space: nowrap;
         }
-        .node-label.terminal {
-            background: #fbe9d2;
-            border-color: #b47d4b;
-            color: #714f24;
+        .node-label.term {
+            background: #fbebc5;
+            border-color: #b8873a;
+            color: #5f3f12;
         }
-        .children-container {
+        .children {
             display: flex;
-            justify-content: center;
             margin-top: 0.8rem;
-            gap: 1rem;
+            gap: 1.2rem;
             position: relative;
         }
-        .children-container::before {
+        .children::before {
             content: '';
             position: absolute;
-            top: -0.5rem;
+            top: -0.6rem;
             left: 50%;
             width: 2px;
-            height: 0.5rem;
-            background: #95adc7;
+            height: 0.6rem;
+            background: #8caac9;
             transform: translateX(-50%);
-        }
-        .tree-node .tree-node {
-            position: relative;
         }
         .tree-node .tree-node::before {
             content: '';
             position: absolute;
-            top: -0.8rem;
+            top: -0.7rem;
             left: 50%;
             width: 2px;
-            height: 0.8rem;
-            background: #95adc7;
+            height: 0.7rem;
+            background: #8caac9;
             transform: translateX(-50%);
         }
-        /* garis antar saudara tidak kita buat agar simpel */
         .empty-tree {
-            padding: 2rem;
+            padding: 2.5rem;
             text-align: center;
-            color: #8ba0b8;
+            color: #7795b6;
             font-style: italic;
+            background: #f1f8ff;
+            border-radius: 2rem;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.98); }
+        @keyframes appear {
+            from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
         }
         footer {
             text-align: center;
             padding: 1.2rem;
-            color: #5e7b9c;
-            border-top: 1px solid #d8e2ed;
-            background: #f0f6fc;
-            font-size: 0.9rem;
-        }
-        .flex-row {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 0.8rem;
+            background: #e7f0f9;
+            color: #2f557a;
+            font-size: 0.95rem;
+            border-top: 1px solid #c8dbee;
         }
     </style>
 </head>
 <body>
-<div class="app-container">
-    <div class="header">
-        <h1>🧩 Compiler Illustrator</h1>
-        <p>grammar · parsing · parse tree — ekspresi aritmatika sederhana</p>
-    </div>
+    <div class="card">
+        <div class="header">
+            <h1>⚙️ Compiler Illustrator <span>boolean grammar</span></h1>
+            <p>desain bahasa · CFG · parser · visualisasi pohon sintaks</p>
+        </div>
 
-    <!-- panel atas: definisi grammar & input -->
-    <div class="main-panel">
-        <!-- kolom kiri: definisi grammar -->
-        <div class="grammar-section">
-            <h2>📐 CFG yang didefinisikan <span>3 non-terminal · 7 produksi</span></h2>
-            <div class="rule-grid">
-                <div class="rule-item"><span class="nonterm">Expr</span> <span class="arrow">→</span> <span class="prod">Expr + Term</span></div>
-                <div class="rule-item"><span class="nonterm">Expr</span> <span class="arrow">→</span> <span class="prod">Term</span></div>
-                <div class="rule-item"><span class="nonterm">Term</span> <span class="arrow">→</span> <span class="prod">Term * Factor</span></div>
-                <div class="rule-item"><span class="nonterm">Term</span> <span class="arrow">→</span> <span class="prod">Factor</span></div>
-                <div class="rule-item"><span class="nonterm">Factor</span> <span class="arrow">→</span> <span class="prod">( Expr )</span></div>
-                <div class="rule-item"><span class="nonterm">Factor</span> <span class="arrow">→</span> <span class="prod">id</span></div>
-                <div class="rule-item"><span class="nonterm">Factor</span> <span class="arrow">→</span> <span class="prod">num</span></div>
+        <!-- Panel definisi grammar & input -->
+        <div class="main-grid">
+            <!-- kiri: grammar -->
+            <div class="grammar-panel">
+                <h2>📐 Context‑Free Grammar</h2>
+                <div class="production-list">
+                    <div class="prod-item"><span class="nonterm">Expr</span> <span class="arrow">→</span> <span class="rhs">Expr OR Term</span></div>
+                    <div class="prod-item"><span class="nonterm">Expr</span> <span class="arrow">→</span> <span class="rhs">Term</span></div>
+                    <div class="prod-item"><span class="nonterm">Term</span> <span class="arrow">→</span> <span class="rhs">Term AND Factor</span></div>
+                    <div class="prod-item"><span class="nonterm">Term</span> <span class="arrow">→</span> <span class="rhs">Factor</span></div>
+                    <div class="prod-item"><span class="nonterm">Factor</span> <span class="arrow">→</span> <span class="rhs">NOT Factor</span></div>
+                    <div class="prod-item"><span class="nonterm">Factor</span> <span class="arrow">→</span> <span class="rhs">( Expr )</span></div>
+                    <div class="prod-item"><span class="nonterm">Factor</span> <span class="arrow">→</span> <span class="rhs">TRUE</span></div>
+                    <div class="prod-item"><span class="nonterm">Factor</span> <span class="arrow">→</span> <span class="rhs">FALSE</span></div>
+                </div>
+                <div class="info-footer">
+                    <span class="terminal-badge">OR</span>
+                    <span class="terminal-badge">AND</span>
+                    <span class="terminal-badge">NOT</span>
+                    <span class="terminal-badge">( )</span>
+                    <span class="terminal-badge">TRUE</span>
+                    <span class="terminal-badge">FALSE</span>
+                    <p style="margin-top: 0.8rem;"><code>3 non-terminal · 8 production rules · 2 operator + unary NOT</code></p>
+                </div>
             </div>
-            <div style="margin-top: 1.2rem; background: #e7eff8; border-radius: 1rem; padding: 1rem;">
-                <span class="badge">📌 terminal</span> <code style="background: #d4e2f0; padding:0.2rem 0.5rem; border-radius: 12px;">id</code> (huruf), <code>num</code> (angka), <code>+</code>, <code>*</code>, <code>(</code>, <code>)</code>
-                <p style="margin-top: 0.7rem; color: #335c7e;">🔹 non-terminal: <strong>Expr, Term, Factor</strong> — 2 operator, tanda kurung, identifier & number.</p>
+
+            <!-- kanan: input & status -->
+            <div class="io-panel">
+                <h3>⌨️ uji ekspresi boolean</h3>
+                <div class="input-area">
+                    <div class="input-row">
+                        <input type="text" id="exprInput" placeholder="contoh: TRUE AND (FALSE OR NOT TRUE)" value="TRUE AND (FALSE OR NOT TRUE)">
+                        <button id="parseBtn">🔍 parse & validasi</button>
+                    </div>
+                    <div class="example-pills">
+                        <span class="pill" data-expr="TRUE">TRUE</span>
+                        <span class="pill" data-expr="FALSE OR NOT TRUE">FALSE OR NOT TRUE</span>
+                        <span class="pill" data-expr="(TRUE AND FALSE) OR NOT (FALSE AND TRUE)">(TRUE AND FALSE) OR NOT (FALSE AND TRUE)</span>
+                        <span class="pill" data-expr="TRUE AND FALSE OR TRUE">❌ AND/OR prioritas</span>
+                        <span class="pill" data-expr="NOT (TRUE FALSE)">❌ kurung salah</span>
+                        <span class="pill" data-expr="TRUE AND">❌ incomplete</span>
+                    </div>
+                </div>
+
+                <div id="statusBox" class="status-box valid">⚡ masukkan ekspresi lalu tekan parse</div>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <button class="secondary" id="resetBtn">↻ reset input</button>
+                    <button class="secondary" id="exampleBtn">🎲 acak contoh</button>
+                </div>
             </div>
         </div>
 
-        <!-- kolom kanan: input & status -->
-        <div class="input-section">
-            <h3>📥 uji ekspresi</h3>
-            <div class="input-group">
-                <input type="text" id="expressionInput" placeholder="contoh: x + 5 * (y + 2)" value="x + 5 * (y + 2)">
-                <button id="parseBtn">🔍 Parse & cek</button>
-            </div>
-            <div class="examples">
-                <span class="example-tag" data-expr="x + 5 * (y + 2)">✅ x + 5 * (y + 2)</span>
-                <span class="example-tag" data-expr="(x+2)*3">✅ (x+2)*3</span>
-                <span class="example-tag" data-expr="a + b * c - d">❌ minus (tak ada)</span>
-                <span class="example-tag" data-expr="x + * y">❌ x + * y</span>
-                <span class="example-tag" data-expr="(x + 5">❌ kurung buka</span>
-            </div>
-
-            <!-- status valid / tidak -->
-            <div id="statusBox" class="status-box valid">⚡ menunggu pengecekan...</div>
-
-            <!-- tombol reset -->
-            <div class="flex-row">
-                <button class="secondary" id="resetBtn">↻ reset</button>
-                <span style="font-size: 0.9rem; color: #4b6f8c;">masukkan ekspresi → lihat pohon</span>
+        <!-- area parse tree -->
+        <div class="tree-wrapper">
+            <div class="tree-title">🌿 parse tree <span style="font-size: 0.9rem; background: #e0edf9; padding: 0.2rem 1rem; border-radius: 40px;">daun adalah terminal</span></div>
+            <div id="treeContainer" class="parse-root">
+                <div class="empty-tree">⏳ pohon akan muncul setelah parsing berhasil</div>
             </div>
         </div>
+
+        <footer>
+            ✅ memenuhi spesifikasi: 3 non‑terminal, ≥5 production, 2+ operator (AND, OR, NOT) — bebas dari contoh PDF
+        </footer>
     </div>
 
-    <!-- area parse tree -->
-    <div class="tree-container" id="treeContainer">
-        <div class="tree-title">🌲 parse tree</div>
-        <div id="parseTreeVisual" class="parse-tree-root">
-            <div class="empty-tree">⏳ hasil parsing akan muncul di sini</div>
-        </div>
-    </div>
+    <script>
+        (function() {
+            // ---------- LEXER ----------
+            const TokenType = {
+                TRUE: 'TRUE',
+                FALSE: 'FALSE',
+                AND: 'AND',
+                OR: 'OR',
+                NOT: 'NOT',
+                LPAREN: 'LPAREN',
+                RPAREN: 'RPAREN',
+                EOF: 'EOF'
+            };
 
-    <footer>
-        ⚙️ bahasa: arithmetic · non-terminal: 3 · production rules: 7 · memenuhi spesifikasi minimum
-    </footer>
-</div>
-
-<script>
-    (function() {
-        // ------- LEXER (tokenizer) --------
-        const TokenType = {
-            ID: 'id',
-            NUM: 'num',
-            PLUS: 'plus',
-            TIMES: 'times',
-            LPAREN: 'lparen',
-            RPAREN: 'rparen',
-            EOF: 'eof'
-        };
-
-        class Token {
-            constructor(type, value) {
-                this.type = type;
-                this.value = value;
+            class Token {
+                constructor(type, lexeme) {
+                    this.type = type;
+                    this.lexeme = lexeme;
+                }
             }
-            toString() {
-                return this.value;
-            }
-        }
 
-        function lex(input) {
-            const tokens = [];
-            let i = 0;
-            while (i < input.length) {
-                const ch = input[i];
-                if (/\s/.test(ch)) { i++; continue; }
+            function lex(input) {
+                const tokens = [];
+                let i = 0;
+                const upperInput = input.toUpperCase(); // case-insensitive
+                while (i < input.length) {
+                    const ch = upperInput[i];
+                    if (/\s/.test(ch)) { i++; continue; }
 
-                if (/[a-zA-Z]/.test(ch)) {
-                    let id = '';
-                    while (i < input.length && /[a-zA-Z]/.test(input[i])) {
-                        id += input[i];
-                        i++;
+                    // coba match multi-huruf
+                    if (upperInput.startsWith('TRUE', i)) {
+                        tokens.push(new Token(TokenType.TRUE, 'TRUE'));
+                        i += 4;
+                        continue;
                     }
-                    tokens.push(new Token(TokenType.ID, id));
-                    continue;
-                }
-
-                if (/\d/.test(ch)) {
-                    let num = '';
-                    while (i < input.length && /\d/.test(input[i])) {
-                        num += input[i];
-                        i++;
+                    if (upperInput.startsWith('FALSE', i)) {
+                        tokens.push(new Token(TokenType.FALSE, 'FALSE'));
+                        i += 5;
+                        continue;
                     }
-                    tokens.push(new Token(TokenType.NUM, num));
-                    continue;
-                }
+                    if (upperInput.startsWith('AND', i)) {
+                        tokens.push(new Token(TokenType.AND, 'AND'));
+                        i += 3;
+                        continue;
+                    }
+                    if (upperInput.startsWith('OR', i)) {
+                        tokens.push(new Token(TokenType.OR, 'OR'));
+                        i += 2;
+                        continue;
+                    }
+                    if (upperInput.startsWith('NOT', i)) {
+                        tokens.push(new Token(TokenType.NOT, 'NOT'));
+                        i += 3;
+                        continue;
+                    }
 
-                if (ch === '+') {
-                    tokens.push(new Token(TokenType.PLUS, '+'));
-                    i++;
-                    continue;
-                }
-                if (ch === '*') {
-                    tokens.push(new Token(TokenType.TIMES, '*'));
-                    i++;
-                    continue;
-                }
-                if (ch === '(') {
-                    tokens.push(new Token(TokenType.LPAREN, '('));
-                    i++;
-                    continue;
-                }
-                if (ch === ')') {
-                    tokens.push(new Token(TokenType.RPAREN, ')'));
-                    i++;
-                    continue;
-                }
-                // karakter tidak dikenal -> lempar error
-                throw new Error(`karakter tidak valid: '${ch}'`);
-            }
-            tokens.push(new Token(TokenType.EOF, 'eof'));
-            return tokens;
-        }
+                    if (ch === '(') {
+                        tokens.push(new Token(TokenType.LPAREN, '('));
+                        i++;
+                        continue;
+                    }
+                    if (ch === ')') {
+                        tokens.push(new Token(TokenType.RPAREN, ')'));
+                        i++;
+                        continue;
+                    }
 
-        // ------- NODE untuk parse tree --------
-        class ParseNode {
-            constructor(name, children = []) {
-                this.name = name;        // string: Expr, Term, +, id, ...
-                this.children = children; // array ParseNode
-                this.isTerminal = false;
-            }
-        }
-
-        class TerminalNode extends ParseNode {
-            constructor(type, value) {
-                super(value, []);
-                this.isTerminal = true;
-                this.tokenType = type;
-            }
-        }
-
-        // ------- PARSER (recursive descent, LL(1) setelah hapus left-rekrusif) --------
-        class Parser {
-            constructor(tokens) {
-                this.tokens = tokens;
-                this.pos = 0;
+                    // karakter tidak dikenal
+                    throw new Error(`karakter tidak valid: '${input[i]}'`);
+                }
+                tokens.push(new Token(TokenType.EOF, 'EOF'));
+                return tokens;
             }
 
-            peek() {
-                return this.tokens[this.pos];
+            // ---------- NODE untuk parse tree ----------
+            class ParseNode {
+                constructor(name, children = []) {
+                    this.name = name;          // Expr, Term, Factor, OR, AND, NOT, TRUE, FALSE, (, )
+                    this.children = children;
+                    this.isTerminal = false;
+                }
             }
-
-            consume(expectedType) {
-                const tok = this.peek();
-                if (tok.type !== expectedType) {
-                    throw new Error(`diharapkan ${expectedType}, ditemukan ${tok.type} ('${tok.value}')`);
-                }
-                this.pos++;
-                return tok;
-            }
-
-            // Expr → Term ExprTail
-            parseExpr() {
-                let left = this.parseTerm();
-                while (this.peek().type === TokenType.PLUS) {
-                    const opToken = this.consume(TokenType.PLUS);
-                    const opNode = new TerminalNode(TokenType.PLUS, opToken.value);
-                    const right = this.parseTerm();
-                    // node Expr dengan tiga anak: left, '+', right
-                    left = new ParseNode('Expr', [left, opNode, right]);
-                }
-                // jika tidak ada plus, left adalah Term, tetapi harus dibungkus Expr? sesuai aturan Expr → Term
-                // jika left sudah berupa Expr? kita lihat: pada kasus left adalah hasil parseTerm, belum dibungkus.
-                // Aturan: Expr bisa menurun menjadi Term saja. Maka kita perlu pastikan root adalah Expr.
-                // Tapi jika ada plus, kita sudah buat Expr. Jika tidak ada plus, kita bungkus Term menjadi Expr.
-                if (!(left instanceof ParseNode && left.name === 'Expr')) {
-                    // bungkus sebagai Expr dgn child tunggal Term
-                    left = new ParseNode('Expr', [left]);
-                }
-                return left;
-            }
-
-            // Term → Factor TermTail
-            parseTerm() {
-                let left = this.parseFactor();
-                while (this.peek().type === TokenType.TIMES) {
-                    const opToken = this.consume(TokenType.TIMES);
-                    const opNode = new TerminalNode(TokenType.TIMES, opToken.value);
-                    const right = this.parseFactor();
-                    left = new ParseNode('Term', [left, opNode, right]);
-                }
-                // bungkus jika perlu
-                if (!(left instanceof ParseNode && left.name === 'Term')) {
-                    left = new ParseNode('Term', [left]);
-                }
-                return left;
-            }
-
-            // Factor → ( Expr ) | id | num
-            parseFactor() {
-                const tok = this.peek();
-                if (tok.type === TokenType.LPAREN) {
-                    const lp = this.consume(TokenType.LPAREN);
-                    const lpNode = new TerminalNode(TokenType.LPAREN, '(');
-                    const innerExpr = this.parseExpr();
-                    const rp = this.consume(TokenType.RPAREN);
-                    const rpNode = new TerminalNode(TokenType.RPAREN, ')');
-                    return new ParseNode('Factor', [lpNode, innerExpr, rpNode]);
-                }
-                else if (tok.type === TokenType.ID) {
-                    const idTok = this.consume(TokenType.ID);
-                    const idNode = new TerminalNode(TokenType.ID, idTok.value);
-                    return new ParseNode('Factor', [idNode]);
-                }
-                else if (tok.type === TokenType.NUM) {
-                    const numTok = this.consume(TokenType.NUM);
-                    const numNode = new TerminalNode(TokenType.NUM, numTok.value);
-                    return new ParseNode('Factor', [numNode]);
-                }
-                else {
-                    throw new Error(`factor tak terduga: ${tok.type} ('${tok.value}')`);
+            class TerminalNode extends ParseNode {
+                constructor(type, lexeme) {
+                    super(lexeme, []);
+                    this.isTerminal = true;
+                    this.tokenType = type;
                 }
             }
 
-            parse() {
-                const tree =
+            // ---------- PARSER (recursive descent, left-recursion dieliminasi dengan while) ----------
+            class Parser {
+                constructor(tokens) {
+                    this.tokens = tokens;
+                    this.pos = 0;
+                }
+
+                peek() {
+                    return this.tokens[this.pos];
+                }
+
+                consume(expectedType) {
+                    const tok = this.peek();
+                    if (tok.type !== expectedType) {
+                        throw new Error(`diharapkan ${expectedType}, ditemukan ${tok.type} (${tok.lexeme})`);
+                    }
+                    this.pos++;
+                    return tok;
+                }
+
+                // Expr → Term { OR Term }
+                parseExpr() {
+                    let left = this.parseTerm();
+                    while (this.peek().type === TokenType.OR) {
+                        const opTok = this.consume(TokenType.OR);
+                        const opNode = new TerminalNode(TokenType.OR, opTok.lexeme);
+                        const right = this.parseTerm();
+                        left = new ParseNode('Expr', [left, opNode, right]);
+                    }
+                    // bungkus jika hanya term
+                    if (!(left instanceof ParseNode && left.name === 'Expr')) {
+                        left = new ParseNode('Expr', [left]);
+                    }
+                    return left;
+                }
+
+                // Term → Factor { AND Factor }
+                parseTerm() {
+                    let left = this.parseFactor();
+                    while (this.peek().type === TokenType.AND) {
+                        const opTok = this.consume(TokenType.AND);
+                        const opNode = new TerminalNode(TokenType.AND, opTok.lexeme);
+                        const right = this.parseFactor();
+                        left = new ParseNode('Term', [left, opNode, right]);
+                    }
+                    if (!(left instanceof ParseNode && left.name === 'Term')) {
+                        left = new ParseNode('Term', [left]);
+                    }
+                    return left;
+                }
+
+                // Factor → NOT Factor | ( Expr ) | TRUE | FALSE
+                parseFactor() {
+                    const tok = this.peek();
+                    if (tok.type === TokenType.NOT) {
+                        this.consume(TokenType.NOT);
+                        const notNode = new TerminalNode(TokenType.NOT,
