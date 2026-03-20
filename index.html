@@ -3,568 +3,571 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✦ Compiler Illustrator — Desain Bahasa & Pohon Sintaks</title>
-    <!-- Font & gaya modern -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <title>Compiler Illustrator · Aritmatika Sederhana</title>
     <style>
         * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
-
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            background: #f5f7fb;
             min-height: 100vh;
             display: flex;
-            align-items: center;
             justify-content: center;
-            padding: 20px;
-            color: #e2e8f0;
+            align-items: center;
+            padding: 1.5rem;
         }
-
-        .glass-panel {
+        .app-container {
             max-width: 1400px;
             width: 100%;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 2.5rem;
-            padding: 2rem 2.5rem;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.02);
-        }
-
-        h1 {
-            font-weight: 600;
-            font-size: 2.5rem;
-            letter-spacing: -0.02em;
-            background: linear-gradient(130deg, #b3e5fc, #ffffff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.4rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .sub {
-            color: #94a3b8;
-            font-size: 1rem;
-            margin-bottom: 2rem;
-            border-left: 4px solid #38bdf8;
-            padding-left: 1rem;
-            font-weight: 400;
-        }
-
-        .main-split {
-            display: grid;
-            grid-template-columns: 1.2fr 0.9fr;
-            gap: 2rem;
-            margin-top: 1rem;
-        }
-
-        /* panel kiri */
-        .left-panel {
-            background: rgba(30, 41, 59, 0.5);
+            background: white;
             border-radius: 2rem;
-            padding: 1.8rem;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            box-shadow: 0 15px 35px -10px rgba(0,0,0,0.5);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
-
-        .section-title {
+        .header {
+            background: linear-gradient(145deg, #1e2b3c, #0f1a28);
+            color: white;
+            padding: 1.8rem 2.5rem;
+        }
+        .header h1 {
             font-weight: 600;
-            font-size: 1.2rem;
-            color: #a5f3fc;
-            margin-bottom: 1rem;
+            font-size: 2.2rem;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.3rem;
+        }
+        .header p {
+            color: #b0c8e0;
+            font-weight: 400;
+            font-size: 1.1rem;
+        }
+        .main-panel {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 1.8rem;
+            padding: 2rem 2.5rem;
+            background: #f8fafd;
+        }
+        .grammar-section {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.8rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+            border: 1px solid #e6edf4;
+        }
+        .grammar-section h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #1e2b3c;
+            margin-bottom: 1.2rem;
             display: flex;
             align-items: center;
-            gap: 8px;
-            border-bottom: 1px dashed #334155;
-            padding-bottom: 0.5rem;
+            gap: 0.5rem;
         }
-
-        .section-title i {
-            font-size: 1.4rem;
-            color: #38bdf8;
+        .grammar-section h2 span {
+            background: #d4e2f0;
+            font-size: 0.9rem;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            color: #1e3b5c;
+            font-weight: 500;
         }
-
-        .grammar-area {
-            width: 100%;
-            background: #0b1622;
-            border: 1px solid #2d3a4f;
-            border-radius: 1.2rem;
+        .rule-grid {
+            background: #f1f5f9;
+            border-radius: 1rem;
             padding: 1.2rem;
             font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 0.9rem;
-            color: #b0e0ff;
-            resize: vertical;
-            white-space: pre;
-            line-height: 1.5;
+            font-size: 1rem;
+            line-height: 1.8;
+            border: 1px solid #d9e2ec;
+            margin-bottom: 1.5rem;
+        }
+        .rule-item {
+            display: flex;
+            align-items: baseline;
+            gap: 0.8rem;
+            padding: 0.3rem 0;
+            border-bottom: 1px dashed #cbd5e1;
+        }
+        .rule-item:last-child {
+            border-bottom: none;
+        }
+        .nonterm {
+            color: #b03d24;
+            font-weight: 600;
+            background: #ffeae5;
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.95rem;
+        }
+        .arrow {
+            color: #3c6e71;
+            font-weight: 600;
+        }
+        .prod {
+            color: #1f3a5f;
+        }
+        .badge {
+            background: #284b63;
+            color: white;
+            padding: 0.3rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-right: 0.8rem;
+        }
+        .input-section {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.8rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+            border: 1px solid #e6edf4;
+        }
+        .input-section h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e2b3c;
             margin-bottom: 1rem;
         }
-
-        .grammar-area:focus {
-            outline: none;
-            border-color: #38bdf8;
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
-        }
-
-        .row-flex {
+        .input-group {
             display: flex;
+            gap: 0.8rem;
             flex-wrap: wrap;
-            gap: 1rem;
-            align-items: center;
-            margin: 1.2rem 0;
+            margin-bottom: 1.5rem;
         }
-
-        .label-start {
-            background: #1e2a3a;
-            padding: 0.4rem 1rem;
-            border-radius: 3rem;
-            font-size: 0.9rem;
+        #expressionInput {
+            flex: 3 1 300px;
+            padding: 1rem 1.2rem;
+            font-size: 1.1rem;
+            border: 2px solid #dde7f0;
+            border-radius: 50px;
+            outline: none;
+            transition: 0.2s;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        #expressionInput:focus {
+            border-color: #3c6e71;
+            box-shadow: 0 0 0 3px rgba(60,110,113,0.2);
+        }
+        button {
+            background: #284b63;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.15s;
+            border: 1px solid #1d3b4f;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            border: 1px solid #3a4a60;
         }
-
-        .label-start input {
-            background: transparent;
-            border: none;
-            color: white;
-            font-weight: 600;
-            width: 70px;
-            font-family: monospace;
-            font-size: 1rem;
-            border-bottom: 1px dashed #38bdf8;
-            padding: 0.1rem 0.3rem;
-        }
-        .label-start input:focus { outline: none; border-bottom: 2px solid #38bdf8; }
-
-        .input-string {
-            flex: 1;
-            background: #0b1622;
-            border: 1px solid #2d3a4f;
-            border-radius: 3rem;
-            padding: 0.9rem 1.5rem;
-            font-size: 1rem;
-            color: white;
-            font-family: 'Inter', monospace;
-        }
-        .input-string::placeholder { color: #475569; }
-
-        button {
-            background: #2a3a50;
-            border: none;
-            border-radius: 3rem;
-            padding: 0.8rem 1.6rem;
-            font-weight: 600;
-            color: #f1f5f9;
-            font-size: 0.9rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            border: 1px solid #3f526e;
-            transition: 0.15s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-
         button:hover {
-            background: #334962;
-            border-color: #5f7a9f;
-            transform: scale(1.02);
+            background: #1f3f58;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -5px rgba(30,60,80,0.4);
         }
-
-        .btn-primary {
-            background: #0f3b5e;
-            border-color: #38bdf8;
-            color: white;
-            box-shadow: 0 0 10px #38bdf866;
+        button.secondary {
+            background: white;
+            color: #1e2b3c;
+            border: 2px solid #cbd5e1;
         }
-
-        .btn-primary:hover {
-            background: #1b5380;
+        button.secondary:hover {
+            background: #f0f4fa;
+            border-color: #9aa9b9;
         }
-
-        .error-box {
-            background: rgba(220, 38, 38, 0.15);
-            border-left: 4px solid #ef4444;
-            padding: 0.8rem 1.2rem;
-            border-radius: 1rem;
-            margin-top: 1.2rem;
-            color: #fecaca;
+        .examples {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin: 1rem 0 1.8rem;
+        }
+        .example-tag {
+            background: #ecf3fa;
+            color: #1f4973;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
             font-size: 0.9rem;
-            white-space: pre-wrap;
-            font-family: monospace;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid #bdd3e8;
+            transition: 0.1s;
         }
-
-        /* panel kanan */
-        .right-panel {
-            background: rgba(30, 41, 59, 0.5);
-            border-radius: 2rem;
-            padding: 1.8rem;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            box-shadow: 0 15px 35px -10px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
+        .example-tag:hover {
+            background: #d4e2f5;
         }
-
-        .status-badge {
-            padding: 0.8rem 1.5rem;
-            border-radius: 3rem;
-            font-weight: 600;
-            font-size: 1.1rem;
-            display: inline-block;
-            margin-bottom: 1.5rem;
-            background: #1e2a3a;
-            border: 1px solid;
-            text-align: center;
+        .status-box {
+            background: #edf2f7;
+            border-radius: 1rem;
+            padding: 1.2rem;
+            font-weight: 500;
+            border-left: 6px solid;
+            margin: 1.2rem 0 1rem;
         }
-
-        .valid {
-            background: #064e3b;
-            border-color: #34d399;
-            color: #d1fae5;
+        .status-box.valid {
+            border-left-color: #2b7a4b;
+            background: #e2f0e8;
+            color: #1c5e3a;
         }
-
-        .invalid {
-            background: #7f1d1d;
-            border-color: #f87171;
-            color: #fee2e2;
+        .status-box.invalid {
+            border-left-color: #b13e3e;
+            background: #fce9e9;
+            color: #8b2c2c;
         }
-
         .tree-container {
-            background: #0f1a24;
+            background: #ffffff;
             border-radius: 1.5rem;
-            padding: 1.5rem;
-            overflow: auto;
-            max-height: 500px;
-            border: 1px solid #2d404f;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            padding: 2rem;
+            margin: 0 2.5rem 2.5rem 2.5rem;
+            border: 1px solid #e0ebf5;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.02);
+            overflow-x: auto;
         }
-
-        /* gaya pohon */
-        .tree-root {
+        .tree-title {
+            font-weight: 600;
+            font-size: 1.3rem;
+            color: #1d3b53;
+            margin-bottom: 1.2rem;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        /* parse tree styling */
+        .parse-tree-root {
+            display: flex;
+            justify-content: center;
+            animation: fadeIn 0.3s;
         }
         .tree-node {
-            margin-left: 1.2rem;
-            border-left: 2px solid #38bdf8;
-            padding-left: 0.8rem;
-            margin-top: 0.4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 0.8rem;
+        }
+        .node-label {
+            background: #d7e7f7;
+            border: 2px solid #2c5779;
+            color: #153e5a;
+            font-weight: 600;
+            padding: 0.3rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-family: 'JetBrains Mono', monospace;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+            white-space: nowrap;
+        }
+        .node-label.terminal {
+            background: #fbe9d2;
+            border-color: #b47d4b;
+            color: #714f24;
+        }
+        .children-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 0.8rem;
+            gap: 1rem;
             position: relative;
         }
-        .tree-node::before {
+        .children-container::before {
             content: '';
             position: absolute;
-            left: -6px;
-            top: 8px;
-            width: 10px;
-            height: 2px;
-            background: #38bdf8;
-            border-radius: 2px;
+            top: -0.5rem;
+            left: 50%;
+            width: 2px;
+            height: 0.5rem;
+            background: #95adc7;
+            transform: translateX(-50%);
         }
-        .node-name {
-            background: #1e2f40;
-            padding: 0.2rem 0.8rem;
-            border-radius: 2rem;
-            display: inline-block;
-            font-weight: 600;
-            color: #b9e6ff;
-            border: 1px solid #3d6180;
-            box-shadow: 0 2px 5px black;
-            margin-bottom: 4px;
-            font-size: 0.8rem;
+        .tree-node .tree-node {
+            position: relative;
         }
-        .node-value {
-            background: #3a2e2e;
-            color: #fbbfbf;
-            margin-left: 0.3rem;
-            padding: 0.1rem 0.5rem;
-            border-radius: 1rem;
-            font-weight: 400;
+        .tree-node .tree-node::before {
+            content: '';
+            position: absolute;
+            top: -0.8rem;
+            left: 50%;
+            width: 2px;
+            height: 0.8rem;
+            background: #95adc7;
+            transform: translateX(-50%);
         }
-        .tree-children {
-            margin-left: 1rem;
-        }
-
-        .info-chip {
-            background: #263445;
-            border-radius: 2rem;
-            padding: 0.2rem 1rem;
-            font-size: 0.8rem;
-            color: #9ab3d0;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-note {
-            margin-top: 2rem;
+        /* garis antar saudara tidak kita buat agar simpel */
+        .empty-tree {
+            padding: 2rem;
             text-align: center;
-            color: #5f7a9a;
-            font-size: 0.85rem;
-            border-top: 1px solid #1f3245;
-            padding-top: 1rem;
+            color: #8ba0b8;
+            font-style: italic;
         }
-
-        /* scroll */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #0b1622; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb { background: #3f526e; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #5f7a9f; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        footer {
+            text-align: center;
+            padding: 1.2rem;
+            color: #5e7b9c;
+            border-top: 1px solid #d8e2ed;
+            background: #f0f6fc;
+            font-size: 0.9rem;
+        }
+        .flex-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.8rem;
+        }
     </style>
 </head>
 <body>
-<div class="glass-panel">
-    <h1>⚙️ Compiler Illustrator <span style="font-size: 1.2rem; background: #1e2f40; padding: 0.2rem 1rem; border-radius: 40px; color: #b0d4f0;">CFG playground</span></h1>
-    <div class="sub">~ definisikan grammar, uji string, saksikan pohon sintaks tumbuh ~</div>
+<div class="app-container">
+    <div class="header">
+        <h1>🧩 Compiler Illustrator</h1>
+        <p>grammar · parsing · parse tree — ekspresi aritmatika sederhana</p>
+    </div>
 
-    <div class="main-split">
-        <!-- KIRI: DEFINISI -->
-        <div class="left-panel">
-            <div class="section-title">
-                <span>📐 1. Grammar (notasi Ohm)</span>
-                <span class="info-chip" id="ruleCounter">⏳ 3+ nonterminal · 5+ rule</span>
+    <!-- panel atas: definisi grammar & input -->
+    <div class="main-panel">
+        <!-- kolom kiri: definisi grammar -->
+        <div class="grammar-section">
+            <h2>📐 CFG yang didefinisikan <span>3 non-terminal · 7 produksi</span></h2>
+            <div class="rule-grid">
+                <div class="rule-item"><span class="nonterm">Expr</span> <span class="arrow">→</span> <span class="prod">Expr + Term</span></div>
+                <div class="rule-item"><span class="nonterm">Expr</span> <span class="arrow">→</span> <span class="prod">Term</span></div>
+                <div class="rule-item"><span class="nonterm">Term</span> <span class="arrow">→</span> <span class="prod">Term * Factor</span></div>
+                <div class="rule-item"><span class="nonterm">Term</span> <span class="arrow">→</span> <span class="prod">Factor</span></div>
+                <div class="rule-item"><span class="nonterm">Factor</span> <span class="arrow">→</span> <span class="prod">( Expr )</span></div>
+                <div class="rule-item"><span class="nonterm">Factor</span> <span class="arrow">→</span> <span class="prod">id</span></div>
+                <div class="rule-item"><span class="nonterm">Factor</span> <span class="arrow">→</span> <span class="prod">num</span></div>
             </div>
-            <textarea id="grammarInput" class="grammar-area" rows="10" spellcheck="false">Arithmetic {
-  Exp = AddExp
-  AddExp = AddExp "+" MulExp | MulExp
-  MulExp = MulExp "*" PriExp | PriExp
-  PriExp = "(" Exp ")" | number
-  number = digit+
-  digit = "0".."9"
-}</textarea>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <button id="loadExampleGrammar">📋 Muat contoh grammar</button>
-                <button id="countRulesBtn">🔍 hitung non-terminal/rule</button>
+            <div style="margin-top: 1.2rem; background: #e7eff8; border-radius: 1rem; padding: 1rem;">
+                <span class="badge">📌 terminal</span> <code style="background: #d4e2f0; padding:0.2rem 0.5rem; border-radius: 12px;">id</code> (huruf), <code>num</code> (angka), <code>+</code>, <code>*</code>, <code>(</code>, <code>)</code>
+                <p style="margin-top: 0.7rem; color: #335c7e;">🔹 non-terminal: <strong>Expr, Term, Factor</strong> — 2 operator, tanda kurung, identifier & number.</p>
             </div>
-
-            <div class="section-title" style="margin-top: 2rem;">
-                <span>⌨️ 2. Input & start rule</span>
-            </div>
-            <div class="row-flex">
-                <div class="label-start">
-                    <span>start →</span>
-                    <input type="text" id="startRule" value="Exp" placeholder="Exp">
-                </div>
-                <input type="text" id="inputString" class="input-string" placeholder="cth: 3+5*2 atau (1+2)*3" value="3+5*2">
-            </div>
-            <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-                <button class="btn-primary" id="parseBtn">🎯 Parse & visualisasi</button>
-                <button id="loadExampleInputValid">✅ contoh valid</button>
-                <button id="loadExampleInputInvalid">❌ contoh invalid</button>
-            </div>
-            <div id="errorMsg" class="error-box" style="display: none;"></div>
         </div>
 
-        <!-- KANAN: HASIL + POHON -->
-        <div class="right-panel">
-            <div class="section-title">
-                <span>🌲 3. Hasil parsing</span>
+        <!-- kolom kanan: input & status -->
+        <div class="input-section">
+            <h3>📥 uji ekspresi</h3>
+            <div class="input-group">
+                <input type="text" id="expressionInput" placeholder="contoh: x + 5 * (y + 2)" value="x + 5 * (y + 2)">
+                <button id="parseBtn">🔍 Parse & cek</button>
             </div>
-            <div id="status" class="status-badge">⏳ belum dijalankan</div>
+            <div class="examples">
+                <span class="example-tag" data-expr="x + 5 * (y + 2)">✅ x + 5 * (y + 2)</span>
+                <span class="example-tag" data-expr="(x+2)*3">✅ (x+2)*3</span>
+                <span class="example-tag" data-expr="a + b * c - d">❌ minus (tak ada)</span>
+                <span class="example-tag" data-expr="x + * y">❌ x + * y</span>
+                <span class="example-tag" data-expr="(x + 5">❌ kurung buka</span>
+            </div>
 
-            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                <span style="color:#a0c0e0;">parse tree (rekursif):</span>
-                <span style="font-size:0.75rem; background:#1a2c3a; padding:0.2rem 0.6rem; border-radius:20px;">node ➔ aturan</span>
-            </div>
-            <div id="parseTree" class="tree-container">
-                <div style="color: #5f7a9a; text-align: center; padding: 2rem;">⏸️ parse tree akan muncul di sini</div>
-            </div>
-            <div style="margin-top: 1rem; display: flex; gap: 1rem; font-size: 0.75rem;">
-                <span>🔹 minimal 3 non-terminal & 5 produksi (dipenuhi contoh)</span>
+            <!-- status valid / tidak -->
+            <div id="statusBox" class="status-box valid">⚡ menunggu pengecekan...</div>
+
+            <!-- tombol reset -->
+            <div class="flex-row">
+                <button class="secondary" id="resetBtn">↻ reset</button>
+                <span style="font-size: 0.9rem; color: #4b6f8c;">masukkan ekspresi → lihat pohon</span>
             </div>
         </div>
     </div>
-    <div class="footer-note">
-        ⚡ grammar ditulis dalam notasi Ohm — pastikan start rule sesuai. • proyek pembelajaran compiler
+
+    <!-- area parse tree -->
+    <div class="tree-container" id="treeContainer">
+        <div class="tree-title">🌲 parse tree</div>
+        <div id="parseTreeVisual" class="parse-tree-root">
+            <div class="empty-tree">⏳ hasil parsing akan muncul di sini</div>
+        </div>
     </div>
+
+    <footer>
+        ⚙️ bahasa: arithmetic · non-terminal: 3 · production rules: 7 · memenuhi spesifikasi minimum
+    </footer>
 </div>
 
-<script src="https://unpkg.com/ohm-js@16.6.0/dist/ohm.js"></script>
 <script>
     (function() {
-        // Elemen-elemen DOM
-        const grammarArea = document.getElementById('grammarInput');
-        const startRuleInput = document.getElementById('startRule');
-        const inputString = document.getElementById('inputString');
-        const parseBtn = document.getElementById('parseBtn');
-        const statusDiv = document.getElementById('status');
-        const parseTreeDiv = document.getElementById('parseTree');
-        const errorMsgDiv = document.getElementById('errorMsg');
-        const loadExampleGrammar = document.getElementById('loadExampleGrammar');
-        const countRulesBtn = document.getElementById('countRulesBtn');
-        const loadExampleInputValid = document.getElementById('loadExampleInputValid');
-        const loadExampleInputInvalid = document.getElementById('loadExampleInputInvalid');
-        const ruleCounter = document.getElementById('ruleCounter');
+        // ------- LEXER (tokenizer) --------
+        const TokenType = {
+            ID: 'id',
+            NUM: 'num',
+            PLUS: 'plus',
+            TIMES: 'times',
+            LPAREN: 'lparen',
+            RPAREN: 'rparen',
+            EOF: 'eof'
+        };
 
-        // Contoh grammar default (sama dengan di textarea)
-        const defaultGrammar = `Arithmetic {
-  Exp = AddExp
-  AddExp = AddExp "+" MulExp | MulExp
-  MulExp = MulExp "*" PriExp | PriExp
-  PriExp = "(" Exp ")" | number
-  number = digit+
-  digit = "0".."9"
-}`;
+        class Token {
+            constructor(type, value) {
+                this.type = type;
+                this.value = value;
+            }
+            toString() {
+                return this.value;
+            }
+        }
 
-        // Set default
-        grammarArea.value = defaultGrammar;
+        function lex(input) {
+            const tokens = [];
+            let i = 0;
+            while (i < input.length) {
+                const ch = input[i];
+                if (/\s/.test(ch)) { i++; continue; }
 
-        // Utility: sembunyikan error
-        function hideError() { errorMsgDiv.style.display = 'none'; errorMsgDiv.innerText = ''; }
-        function showError(msg) { errorMsgDiv.style.display = 'block'; errorMsgDiv.innerText = '⚠️ ' + msg; }
+                if (/[a-zA-Z]/.test(ch)) {
+                    let id = '';
+                    while (i < input.length && /[a-zA-Z]/.test(input[i])) {
+                        id += input[i];
+                        i++;
+                    }
+                    tokens.push(new Token(TokenType.ID, id));
+                    continue;
+                }
 
-        // Hitung jumlah non-terminal dan production rules (sangat sederhana)
-        function countGrammarStats(grammarText) {
-            const lines = grammarText.split('\n');
-            let nonTerminals = new Set();
-            let prodRules = 0;
-            const ruleRegex = /^[ \t]*([a-zA-Z_][a-zA-Z0-9_]*)\s*=/; // menangkap nonterminal
-            for (let line of lines) {
-                line = line.trim();
-                if (line.length === 0 || line.startsWith('//')) continue;
-                const match = ruleRegex.exec(line);
-                if (match) {
-                    nonTerminals.add(match[1]);
-                    // hitung jumlah produksi: cari '|' dalam line (sederhana)
-                    const withoutComments = line.split('//')[0];
-                    const bars = (withoutComments.match(/\|/g) || []).length;
-                    prodRules += (bars + 1);  // jumlah alternatif
+                if (/\d/.test(ch)) {
+                    let num = '';
+                    while (i < input.length && /\d/.test(input[i])) {
+                        num += input[i];
+                        i++;
+                    }
+                    tokens.push(new Token(TokenType.NUM, num));
+                    continue;
+                }
+
+                if (ch === '+') {
+                    tokens.push(new Token(TokenType.PLUS, '+'));
+                    i++;
+                    continue;
+                }
+                if (ch === '*') {
+                    tokens.push(new Token(TokenType.TIMES, '*'));
+                    i++;
+                    continue;
+                }
+                if (ch === '(') {
+                    tokens.push(new Token(TokenType.LPAREN, '('));
+                    i++;
+                    continue;
+                }
+                if (ch === ')') {
+                    tokens.push(new Token(TokenType.RPAREN, ')'));
+                    i++;
+                    continue;
+                }
+                // karakter tidak dikenal -> lempar error
+                throw new Error(`karakter tidak valid: '${ch}'`);
+            }
+            tokens.push(new Token(TokenType.EOF, 'eof'));
+            return tokens;
+        }
+
+        // ------- NODE untuk parse tree --------
+        class ParseNode {
+            constructor(name, children = []) {
+                this.name = name;        // string: Expr, Term, +, id, ...
+                this.children = children; // array ParseNode
+                this.isTerminal = false;
+            }
+        }
+
+        class TerminalNode extends ParseNode {
+            constructor(type, value) {
+                super(value, []);
+                this.isTerminal = true;
+                this.tokenType = type;
+            }
+        }
+
+        // ------- PARSER (recursive descent, LL(1) setelah hapus left-rekrusif) --------
+        class Parser {
+            constructor(tokens) {
+                this.tokens = tokens;
+                this.pos = 0;
+            }
+
+            peek() {
+                return this.tokens[this.pos];
+            }
+
+            consume(expectedType) {
+                const tok = this.peek();
+                if (tok.type !== expectedType) {
+                    throw new Error(`diharapkan ${expectedType}, ditemukan ${tok.type} ('${tok.value}')`);
+                }
+                this.pos++;
+                return tok;
+            }
+
+            // Expr → Term ExprTail
+            parseExpr() {
+                let left = this.parseTerm();
+                while (this.peek().type === TokenType.PLUS) {
+                    const opToken = this.consume(TokenType.PLUS);
+                    const opNode = new TerminalNode(TokenType.PLUS, opToken.value);
+                    const right = this.parseTerm();
+                    // node Expr dengan tiga anak: left, '+', right
+                    left = new ParseNode('Expr', [left, opNode, right]);
+                }
+                // jika tidak ada plus, left adalah Term, tetapi harus dibungkus Expr? sesuai aturan Expr → Term
+                // jika left sudah berupa Expr? kita lihat: pada kasus left adalah hasil parseTerm, belum dibungkus.
+                // Aturan: Expr bisa menurun menjadi Term saja. Maka kita perlu pastikan root adalah Expr.
+                // Tapi jika ada plus, kita sudah buat Expr. Jika tidak ada plus, kita bungkus Term menjadi Expr.
+                if (!(left instanceof ParseNode && left.name === 'Expr')) {
+                    // bungkus sebagai Expr dgn child tunggal Term
+                    left = new ParseNode('Expr', [left]);
+                }
+                return left;
+            }
+
+            // Term → Factor TermTail
+            parseTerm() {
+                let left = this.parseFactor();
+                while (this.peek().type === TokenType.TIMES) {
+                    const opToken = this.consume(TokenType.TIMES);
+                    const opNode = new TerminalNode(TokenType.TIMES, opToken.value);
+                    const right = this.parseFactor();
+                    left = new ParseNode('Term', [left, opNode, right]);
+                }
+                // bungkus jika perlu
+                if (!(left instanceof ParseNode && left.name === 'Term')) {
+                    left = new ParseNode('Term', [left]);
+                }
+                return left;
+            }
+
+            // Factor → ( Expr ) | id | num
+            parseFactor() {
+                const tok = this.peek();
+                if (tok.type === TokenType.LPAREN) {
+                    const lp = this.consume(TokenType.LPAREN);
+                    const lpNode = new TerminalNode(TokenType.LPAREN, '(');
+                    const innerExpr = this.parseExpr();
+                    const rp = this.consume(TokenType.RPAREN);
+                    const rpNode = new TerminalNode(TokenType.RPAREN, ')');
+                    return new ParseNode('Factor', [lpNode, innerExpr, rpNode]);
+                }
+                else if (tok.type === TokenType.ID) {
+                    const idTok = this.consume(TokenType.ID);
+                    const idNode = new TerminalNode(TokenType.ID, idTok.value);
+                    return new ParseNode('Factor', [idNode]);
+                }
+                else if (tok.type === TokenType.NUM) {
+                    const numTok = this.consume(TokenType.NUM);
+                    const numNode = new TerminalNode(TokenType.NUM, numTok.value);
+                    return new ParseNode('Factor', [numNode]);
+                }
+                else {
+                    throw new Error(`factor tak terduga: ${tok.type} ('${tok.value}')`);
                 }
             }
-            return { nonTerminals: nonTerminals.size, prodRules: prodRules };
-        }
 
-        function updateRuleCounter() {
-            const txt = grammarArea.value;
-            const stats = countGrammarStats(txt);
-            ruleCounter.innerText = `📊 ${stats.nonTerminals} NT · ${stats.prodRules} rule`;
-            if (stats.nonTerminals < 3 || stats.prodRules < 5) {
-                ruleCounter.style.background = '#5f2e2e';
-                ruleCounter.title = 'Kurang dari spesifikasi (min 3 NT, 5 rule)';
-            } else {
-                ruleCounter.style.background = '#1f4a3a';
-                ruleCounter.title = 'Memenuhi spesifikasi minimal';
-            }
-        }
-        grammarArea.addEventListener('input', updateRuleCounter);
-        updateRuleCounter(); // inisial
-
-        // Load contoh grammar
-        loadExampleGrammar.addEventListener('click', () => {
-            grammarArea.value = defaultGrammar;
-            startRuleInput.value = 'Exp';
-            updateRuleCounter();
-            hideError();
-        });
-
-        // Hitung ulang (tombol)
-        countRulesBtn.addEventListener('click', updateRuleCounter);
-
-        // Load contoh input valid
-        loadExampleInputValid.addEventListener('click', () => {
-            inputString.value = '3+5*2';
-            hideError();
-        });
-
-        // Load contoh input invalid
-        loadExampleInputInvalid.addEventListener('click', () => {
-            inputString.value = '3+*5';
-            hideError();
-        });
-
-        // Membangun pohon dari node internal Ohm (rekursif, akses properti internal)
-        function buildRawTree(node) {
-            // node dari internal Ohm (match._node) memiliki properti _ruleName, _children, _primitiveValue?
-            // Terminal biasanya punya property 'primitiveValue' (string)
-            if (node.primitiveValue !== undefined) {
-                // terminal
-                return {
-                    name: node._ruleName || '⚡terminal',
-                    value: node.primitiveValue,
-                    children: []
-                };
-            } else {
-                // nonterminal: punya _children
-                let children = [];
-                if (node._children && Array.isArray(node._children)) {
-                    children = node._children.map(child => buildRawTree(child));
-                }
-                return {
-                    name: node._ruleName || '?',
-                    children: children
-                };
-            }
-        }
-
-        // Render tree ke elemen HTML (rekursif)
-        function renderTreeElement(node) {
-            const container = document.createElement('div');
-            container.className = 'tree-node';
-
-            const nameSpan = document.createElement('span');
-            nameSpan.className = 'node-name';
-            nameSpan.textContent = node.name;
-            container.appendChild(nameSpan);
-
-            if (node.value !== undefined) {
-                const valSpan = document.createElement('span');
-                valSpan.className = 'node-value';
-                valSpan.textContent = node.value;
-                container.appendChild(valSpan);
-            }
-
-            if (node.children && node.children.length > 0) {
-                const childrenDiv = document.createElement('div');
-                childrenDiv.className = 'tree-children';
-                node.children.forEach(child => {
-                    childrenDiv.appendChild(renderTreeElement(child));
-                });
-                container.appendChild(childrenDiv);
-            }
-            return container;
-        }
-
-        // Fungsi parse utama
-        function performParse() {
-            hideError();
-            const grammarText = grammarArea.value;
-            const startRule = startRuleInput.value.trim();
-            const input = inputString.value;
-
-            if (!grammarText) {
-                showError('Grammar tidak boleh kosong');
-                return;
-            }
-            if (!startRule) {
-                showError('Isi start rule (misal: Exp, Program, S)');
-                return;
-            }
-
-            let grammar;
-            try {
-                grammar = ohm.grammar(grammarText);
-            } catch (e) {
-                showError('Kesalahan grammar:\n' + e.message);
-                statusDiv.innerText = '❌ grammar error';
-                statusDiv.className = 'status-badge invalid';
-                parseTreeDiv.innerHTML = '<div style="color: #aaa; padding: 1rem;">✗ grammar tidak valid</div>';
-                return;
-            }
-
-            // Cek apakah start rule ada
-            if (!grammar.rules[startRule]) {
-                showError(`Start rule "${startRule}" tidak ditemukan dalam grammar. Coba: ${Object.keys(grammar.rules).join(', ')}`);
-                statusDiv.innerText = '❌
+            parse() {
+                const tree =
