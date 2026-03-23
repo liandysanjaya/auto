@@ -346,9 +346,7 @@
             <p>desain bahasa · CFG · parser · visualisasi pohon sintaks</p>
         </div>
 
-        <!-- Panel definisi grammar & input -->
         <div class="main-grid">
-            <!-- kiri: grammar -->
             <div class="grammar-panel">
                 <h2>📐 Context‑Free Grammar</h2>
                 <div class="production-list">
@@ -372,7 +370,6 @@
                 </div>
             </div>
 
-            <!-- kanan: input & status -->
             <div class="io-panel">
                 <h3>⌨️ uji ekspresi boolean</h3>
                 <div class="input-area">
@@ -398,7 +395,6 @@
             </div>
         </div>
 
-        <!-- area parse tree -->
         <div class="tree-wrapper">
             <div class="tree-title">🌿 parse tree <span style="font-size: 0.9rem; background: #e0edf9; padding: 0.2rem 1rem; border-radius: 40px;">daun adalah terminal</span></div>
             <div id="treeContainer" class="parse-root">
@@ -413,7 +409,7 @@
 
     <script>
         (function() {
-            // ---------- LEXER ----------
+            // Token types
             const TokenType = {
                 TRUE: 'TRUE',
                 FALSE: 'FALSE',
@@ -432,15 +428,15 @@
                 }
             }
 
+            // Lexer
             function lex(input) {
                 const tokens = [];
                 let i = 0;
-                const upperInput = input.toUpperCase(); // case-insensitive
+                const upperInput = input.toUpperCase();
                 while (i < input.length) {
                     const ch = upperInput[i];
                     if (/\s/.test(ch)) { i++; continue; }
 
-                    // coba match multi-huruf
                     if (upperInput.startsWith('TRUE', i)) {
                         tokens.push(new Token(TokenType.TRUE, 'TRUE'));
                         i += 4;
@@ -478,21 +474,21 @@
                         continue;
                     }
 
-                    // karakter tidak dikenal
                     throw new Error(`karakter tidak valid: '${input[i]}'`);
                 }
                 tokens.push(new Token(TokenType.EOF, 'EOF'));
                 return tokens;
             }
 
-            // ---------- NODE untuk parse tree ----------
+            // Parse nodes
             class ParseNode {
                 constructor(name, children = []) {
-                    this.name = name;          // Expr, Term, Factor, OR, AND, NOT, TRUE, FALSE, (, )
+                    this.name = name;
                     this.children = children;
                     this.isTerminal = false;
                 }
             }
+            
             class TerminalNode extends ParseNode {
                 constructor(type, lexeme) {
                     super(lexeme, []);
@@ -501,7 +497,7 @@
                 }
             }
 
-            // ---------- PARSER (recursive descent, left-recursion dieliminasi dengan while) ----------
+            // Parser
             class Parser {
                 constructor(tokens) {
                     this.tokens = tokens;
@@ -521,7 +517,6 @@
                     return tok;
                 }
 
-                // Expr → Term { OR Term }
                 parseExpr() {
                     let left = this.parseTerm();
                     while (this.peek().type === TokenType.OR) {
@@ -530,14 +525,12 @@
                         const right = this.parseTerm();
                         left = new ParseNode('Expr', [left, opNode, right]);
                     }
-                    // bungkus jika hanya term
                     if (!(left instanceof ParseNode && left.name === 'Expr')) {
                         left = new ParseNode('Expr', [left]);
                     }
                     return left;
                 }
 
-                // Term → Factor { AND Factor }
                 parseTerm() {
                     let left = this.parseFactor();
                     while (this.peek().type === TokenType.AND) {
@@ -552,9 +545,156 @@
                     return left;
                 }
 
-                // Factor → NOT Factor | ( Expr ) | TRUE | FALSE
                 parseFactor() {
                     const tok = this.peek();
                     if (tok.type === TokenType.NOT) {
                         this.consume(TokenType.NOT);
-                        const notNode = new TerminalNode(TokenType.NOT,
+                        const notNode = new TerminalNode(TokenType.NOT, 'NOT');
+                        const factor = this.parseFactor();
+                        return new ParseNode('Factor', [notNode, factor]);
+                    } else if (tok.type === TokenType.LPAREN) {
+                        this.consume(TokenType.LPAREN);
+                        const lparenNode = new TerminalNode(TokenType.LPAREN, '(');
+                        const expr = this.parseExpr();
+                        const rparenNode = new TerminalNode(TokenType.RPAREN, ')');
+                        this.consume(TokenType.RPAREN);
+                        return new ParseNode('Factor', [lparenNode, expr, rparenNode]);
+                    } else if (tok.type === TokenType.TRUE) {
+                        const trueTok = this.consume(TokenType.TRUE);
+                        const trueNode = new TerminalNode(TokenType.TRUE, 'TRUE');
+                        return new ParseNode('Factor', [trueNode]);
+                    } else if (tok.type === TokenType.FALSE) {
+                        const falseTok = this.consume(TokenType.FALSE);
+                        const falseNode = new TerminalNode(TokenType.FALSE, 'FALSE');
+                        return new ParseNode('Factor', [falseNode]);
+                    } else {
+                        throw new Error(`unexpected token: ${tok.type}`);
+                    }
+                }
+
+                parse() {
+                    const ast = this.parseExpr();
+                    if (this.peek().type !== TokenType.EOF) {
+                        throw new Error(`unexpected token after parsing: ${this.peek().type}`);
+                    }
+                    return ast;
+                }
+            }
+
+            // Render parse tree
+            function renderTree(node) {
+                if (!node || !node.children || node.children.length === 0) {
+                    const div = document.createElement('div');
+                    div.className = 'tree-node';
+                    const label = document.createElement('div');
+                    label.className = 'node-label' + (node?.isTerminal ? ' term' : '');
+                    label.textContent = node?.name || '?';
+                    div.appendChild(label);
+                    return div;
+                }
+
+                const div = document.createElement('div');
+                div.className = 'tree-node';
+                
+                const label = document.createElement('div');
+                label.className = 'node-label';
+                label.textContent = node.name;
+                div.appendChild(label);
+                
+                if (node.children && node.children.length > 0) {
+                    const childrenDiv = document.createElement('div');
+                    childrenDiv.className = 'children';
+                    node.children.forEach(child => {
+                        childrenDiv.appendChild(renderTree(child));
+                    });
+                    div.appendChild(childrenDiv);
+                }
+                
+                return div;
+            }
+
+            // Main logic
+            const exprInput = document.getElementById('exprInput');
+            const parseBtn = document.getElementById('parseBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const exampleBtn = document.getElementById('exampleBtn');
+            const statusBox = document.getElementById('statusBox');
+            const treeContainer = document.getElementById('treeContainer');
+
+            const examples = [
+                'TRUE',
+                'FALSE OR NOT TRUE',
+                '(TRUE AND FALSE) OR NOT (FALSE AND TRUE)',
+                'TRUE AND FALSE',
+                'NOT TRUE',
+                'TRUE AND (FALSE OR TRUE)'
+            ];
+
+            function parseExpression(expr) {
+                try {
+                    const tokens = lex(expr);
+                    const parser = new Parser(tokens);
+                    const ast = parser.parse();
+                    return { success: true, ast, error: null };
+                } catch (error) {
+                    return { success: false, ast: null, error: error.message };
+                }
+            }
+
+            function updateUI(expr) {
+                const result = parseExpression(expr);
+                
+                if (result.success) {
+                    statusBox.className = 'status-box valid';
+                    statusBox.innerHTML = `✅ parsing berhasil! ekspresi valid: "${expr}"`;
+                    treeContainer.innerHTML = '';
+                    const tree = renderTree(result.ast);
+                    treeContainer.appendChild(tree);
+                } else {
+                    statusBox.className = 'status-box invalid';
+                    statusBox.innerHTML = `❌ parsing gagal: ${result.error}<br><span style="font-size: 0.9rem;">ekspresi: "${expr}"</span>`;
+                    treeContainer.innerHTML = '<div class="empty-tree">⚠️ parsing gagal, pohon tidak dapat ditampilkan</div>';
+                }
+            }
+
+            parseBtn.addEventListener('click', () => {
+                const expr = exprInput.value.trim();
+                if (expr === '') {
+                    statusBox.className = 'status-box invalid';
+                    statusBox.innerHTML = '❌ masukkan ekspresi terlebih dahulu';
+                    treeContainer.innerHTML = '<div class="empty-tree">⏳ masukkan ekspresi untuk melihat parse tree</div>';
+                    return;
+                }
+                updateUI(expr);
+            });
+
+            resetBtn.addEventListener('click', () => {
+                exprInput.value = '';
+                statusBox.className = 'status-box valid';
+                statusBox.innerHTML = '⚡ masukkan ekspresi lalu tekan parse';
+                treeContainer.innerHTML = '<div class="empty-tree">⏳ pohon akan muncul setelah parsing berhasil</div>';
+            });
+
+            exampleBtn.addEventListener('click', () => {
+                const randomExample = examples[Math.floor(Math.random() * examples.length)];
+                exprInput.value = randomExample;
+                updateUI(randomExample);
+            });
+
+            // Add pill click handlers
+            document.querySelectorAll('.pill').forEach(pill => {
+                pill.addEventListener('click', () => {
+                    const expr = pill.getAttribute('data-expr');
+                    if (expr) {
+                        exprInput.value = expr;
+                        updateUI(expr);
+                    }
+                });
+            });
+
+            // Initial parse
+            updateUI('TRUE AND (FALSE OR NOT TRUE)');
+        })();
+    </script>
+</body>
+</html>
